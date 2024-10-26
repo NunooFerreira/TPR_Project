@@ -1,0 +1,29 @@
+Projeto de TPR:
+
+Tipo de ataque: DDoS Layer 7
+
+Tipos de dados: Logs do servidor da pagina web
+
+
+Fazer:
+
+1- Criar website.
+
+2- Simular a utilizacao normal do website para duas pessoas -> Criar 2 datasets (logs)
+
+3- Filtrar dados para fazer as estatisticas. (Criar um Script Python)
+
+4- Criar o Bot para tentar simular o comportamento normal
+
+5- Filtrar os dados do bot com o script criado no .3
+
+6- Criar o Modelo...
+
+
+Formas de Comportamento do Bot:
+ - 
+
+
+Formas de defesa:
+
+
