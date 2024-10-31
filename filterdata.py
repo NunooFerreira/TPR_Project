@@ -28,11 +28,11 @@ def save_to_excel(log_entries, output_file):
     # Save the DataFrame to an Excel file
     df.to_excel(output_file, index=False)
 
-# Example usage
-log_file = 'logs.txt'  # Path to your log file
+
+log_file = 'logs.txt'  
 parsed_logs = parse_log(log_file)
 
-# Save parsed log entries to an Excel file
+#Salvar num Exel file   
 output_file = 'parsed_logs.xlsx'
 save_to_excel(parsed_logs, output_file)
 print("File written to an excel file")
