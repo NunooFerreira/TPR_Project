@@ -1,0 +1,84 @@
+Feature,IP,Value
+requests_per_ip,179.43.191.98,1
+requests_per_ip,80.82.77.202,1
+requests_per_ip,95.214.53.91,2
+requests_per_ip,125.224.67.169,1
+requests_per_ip,5.181.190.29,1
+requests_per_ip,114.33.107.229,1
+requests_per_ip,162.216.149.114,1
+requests_per_ip,98.80.4.98,1
+requests_per_ip,95.214.55.79,1
+requests_per_ip,5.8.11.202,1
+requests_per_ip,20.66.37.242,2
+requests_per_ip,125.228.214.129,1
+requests_per_ip,199.45.154.137,4
+requests_per_ip,122.117.33.133,1
+requests_per_ip,45.58.159.191,11
+requests_per_ip,185.224.128.83,1
+uris_per_ip,179.43.191.98 -> /,1
+uris_per_ip,80.82.77.202 -> /,1
+uris_per_ip,95.214.53.91 -> /,2
+uris_per_ip,125.224.67.169 -> /,1
+uris_per_ip,5.181.190.29 -> /cgi-bin/luci/;stok=/locale,1
+uris_per_ip,114.33.107.229 -> /,1
+uris_per_ip,162.216.149.114 -> /,1
+uris_per_ip,98.80.4.98 -> /,1
+uris_per_ip,95.214.55.79 -> /,1
+uris_per_ip,5.8.11.202 -> /,1
+uris_per_ip,20.66.37.242 -> /cgi-bin/ViewLog.asp,1
+uris_per_ip,20.66.37.242 -> /,1
+uris_per_ip,125.228.214.129 -> /,1
+uris_per_ip,199.45.154.137 -> /,2
+uris_per_ip,199.45.154.137 -> /favicon.ico,1
+uris_per_ip,199.45.154.137 -> *,1
+uris_per_ip,122.117.33.133 -> /,1
+uris_per_ip,45.58.159.191 -> /,3
+uris_per_ip,45.58.159.191 -> /form.html,1
+uris_per_ip,45.58.159.191 -> /upl.php,1
+uris_per_ip,45.58.159.191 -> /t4,1
+uris_per_ip,45.58.159.191 -> /geoip/,1
+uris_per_ip,45.58.159.191 -> /favicon.ico,1
+uris_per_ip,45.58.159.191 -> /1.php,1
+uris_per_ip,45.58.159.191 -> /systembc/password.php,1
+uris_per_ip,45.58.159.191 -> /password.php,1
+uris_per_ip,185.224.128.83 -> /cgi-bin/luci/;stok=/locale,1
+status_codes,200,14
+status_codes,400,5
+status_codes,404,12
+bytes_per_ip,179.43.191.98,1925
+bytes_per_ip,80.82.77.202,483
+bytes_per_ip,95.214.53.91,2136
+bytes_per_ip,125.224.67.169,1944
+bytes_per_ip,5.181.190.29,436
+bytes_per_ip,114.33.107.229,1944
+bytes_per_ip,162.216.149.114,1012
+bytes_per_ip,98.80.4.98,1068
+bytes_per_ip,95.214.55.79,1068
+bytes_per_ip,5.8.11.202,1944
+bytes_per_ip,20.66.37.242,971
+bytes_per_ip,125.228.214.129,1944
+bytes_per_ip,199.45.154.137,3875
+bytes_per_ip,122.117.33.133,1944
+bytes_per_ip,45.58.159.191,5466
+bytes_per_ip,185.224.128.83,436
+user_agents,179.43.191.98,-
+user_agents,80.82.77.202,-
+user_agents,95.214.53.91,"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/90.0.4430.85 Safari/537.36 Edg/90.0.818.46"
+user_agents,125.224.67.169,"Mozilla/5.0 (Linux; U; Android 4.0.3; ko-kr; LG-L160L Build/IML74K) AppleWebkit/534.30 (KHTML, like Gecko) Version/4.0 Mobile Safari/534.30"
+user_agents,5.181.190.29,-
+user_agents,114.33.107.229,"Mozilla/5.0 (Linux; U; Android 4.0.3; ko-kr; LG-L160L Build/IML74K) AppleWebkit/534.30 (KHTML, like Gecko) Version/4.0 Mobile Safari/534.30"
+user_agents,162.216.149.114,"Expanse, a Palo Alto Networks company, searches across the global IPv4 space multiple times per day to identify customers&#39; presences on the Internet. If you would like to be excluded from our scans, please send IP addresses/domains to: scaninfo@paloaltonetworks.com"
+user_agents,98.80.4.98,"Mozilla/5.0 (Windows NT 6.2;en-US) AppleWebKit/537.32.36 (KHTML, live Gecko) Chrome/54.0.3083.79 Safari/537.32"
+user_agents,95.214.55.79,"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/90.0.4430.85 Safari/537.36 Edg/90.0.818.46"
+user_agents,5.8.11.202,"Mozilla/5.0 (iPhone; CPU iPhone OS 12_4 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/12.1.2 Mobile/15E148 Safari/604.1"
+user_agents,20.66.37.242,"Hello, world; -"
+user_agents,125.228.214.129,"Mozilla/5.0 (Linux; U; Android 4.0.3; ko-kr; LG-L160L Build/IML74K) AppleWebkit/534.30 (KHTML, like Gecko) Version/4.0 Mobile Safari/534.30"
+user_agents,199.45.154.137,Mozilla/5.0 (compatible; CensysInspect/1.1; +https://about.censys.io/); -
+user_agents,122.117.33.133,"Mozilla/5.0 (Linux; U; Android 4.0.3; ko-kr; LG-L160L Build/IML74K) AppleWebkit/534.30 (KHTML, like Gecko) Version/4.0 Mobile Safari/534.30"
+user_agents,45.58.159.191,"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/108.0.0.0 Safari/537.36; Mozilla/5.0; -; curl/8.1.2"
+user_agents,185.224.128.83,-
+request_intervals,95.214.53.91,4732.0
+request_intervals,20.66.37.242,0.0
+request_intervals,199.45.154.137,3.3333333333333335
+request_intervals,45.58.159.191,0.2
+
