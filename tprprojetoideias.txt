@@ -21,7 +21,8 @@ Fazer:
 
 
 Formas de Comportamento do Bot:
- - 
+Temos que ter varios niveis do comportamento do Bot:
+1- 
 
 
 Formas de defesa:
