@@ -1,7 +1,0 @@
-Professor reomcnad svm como modelo de ML?
-
-O problema e porque e que o problema nao e soluvel com uma solucao conhecidas/simples.
-COmo e que resolvemos os problemas:
-Como e que capturamos no ambiente real e no teste,
-E como procesamos os dados apartir dai. e Fica por aqui
-future works.

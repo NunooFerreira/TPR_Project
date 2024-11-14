@@ -1,101 +1,114 @@
 import re
-from datetime import datetime
-from collections import defaultdict
-import csv
+import pandas as pd
+from datetime import datetime, timedelta
 
-# Padrão regex para extrair informações de cada linha do log
-log_pattern = r'(\d+\.\d+\.\d+\.\d+) - - \[(.*?)\] "(.*?)" (\d{3}) (\d+) "(.*?)" "(.*?)"'
+# Função para processar e extrair as métricas dos logs
+def process_logs(log_file, output_file, window=5, sub_window=0.5):
+    # Regex para extrair informações do log
+    log_pattern = re.compile(
+        r'(?P<ip>\d+\.\d+\.\d+\.\d+) - - \[(?P<datetime>.*?)\] "(?P<method>\w+) (?P<path>.*?) HTTP/.*" \d+ (?P<size>\d+)'
+    )
+    metrics = []
 
-# Função para extrair dados dos logs e calcular features
-def extract_features(log_file):
-    features = {
-        "requests_per_ip": defaultdict(int),
-        "uris_per_ip": defaultdict(lambda: defaultdict(int)),
-        "status_codes": defaultdict(int),
-        "bytes_per_ip": defaultdict(int),
-        "user_agents": defaultdict(set),
-        "request_intervals": defaultdict(list)
-    }
-    last_request_time = {}
-
-    
-    with open(log_file, 'r') as file:
-        for line in file:
-            match = re.search(log_pattern, line)
+    # Leitura e processamento do arquivo de logs
+    with open(log_file, 'r') as f:
+        for line in f:
+            match = log_pattern.search(line)
             if match:
-                ip, timestamp, request, status, size, referer, user_agent = match.groups()
-                uri = request.split()[1] if " " in request else "/"
-                timestamp = datetime.strptime(timestamp, "%d/%b/%Y:%H:%M:%S %z")
+                ip = match.group('ip')
+                dt_str = match.group('datetime').split()[0]
+                dt = datetime.strptime(dt_str, "%d/%b/%Y:%H:%M:%S")
+                method = match.group('method')
+                path = match.group('path')
+                size = int(match.group('size'))
 
-                # Contagem de requisições por IP
-                features["requests_per_ip"][ip] += 1
+                # Definir tipo de request para métricas
+                is_js = '.js' in path
+                is_html = '.html' in path
+                is_css = '.css' in path
 
-                #  Distribuição de URIs por IP
-                features["uris_per_ip"][ip][uri] += 1
+                # Adicionar a entrada de log ao array de métricas
+                metrics.append([dt, ip, method, size, is_js, is_html, is_css])
 
-                #  Contagem de códigos de status HTTP
-                features["status_codes"][status] += 1
+    # Converte métricas em um DataFrame do pandas para facilitar o processamento
+    df = pd.DataFrame(metrics, columns=['datetime', 'ip', 'method', 'size', 'is_js', 'is_html', 'is_css'])
 
-                #  Total de bytes transferidos por IP
-                features["bytes_per_ip"][ip] += int(size)
+    # Definir intervalos de tempo para janelas de 5 minutos e sub-janelas de 30 segundos
+    start_time = df['datetime'].min()
+    end_time = df['datetime'].max()
+    time_windows = pd.date_range(start=start_time, end=end_time, freq=f'{window}min') # Tempo da Window principal
+    sub_windows = pd.date_range(start=start_time, end=end_time, freq=f'{int(sub_window * 60)}s') # Tempo da subwindow 60s
 
-                #  Armazena o User-Agent por IP
-                features["user_agents"][ip].add(user_agent)
-
-                #  Intervalo entre requisições do mesmo IP
-                if ip in last_request_time:
-                    interval = (timestamp - last_request_time[ip]).total_seconds()
-                    features["request_intervals"][ip].append(interval)
-                last_request_time[ip] = timestamp
-
-    # média do intervalo entre requisições por IP
-    for ip, intervals in features["request_intervals"].items():
-        if intervals:
-            features["request_intervals"][ip] = sum(intervals) / len(intervals)
-        else:
-            features["request_intervals"][ip] = None
-
-    return features
-
-# Função para salvar as features extraídas em um arquivo CSV
-def save_features_to_csv(features, output_file):
-    with open(output_file, 'w', newline='') as csvfile:
-        writer = csv.writer(csvfile)
+    # Processamento das janelas e sub-janelas
+    output_data = []
+    window_counter = 1  # Contador para as janelas de tempo
+    for tw_start in time_windows:
+        tw_end = tw_start + timedelta(minutes=window)
+        df_tw = df[(df['datetime'] >= tw_start) & (df['datetime'] < tw_end)]
         
-        # Header CSV
-        writer.writerow(["Feature", "IP", "Value"])
+        for sw_start in sub_windows[(sub_windows >= tw_start) & (sub_windows < tw_end)]:
+            sw_end = sw_start + timedelta(seconds=int(sub_window * 60))
+            df_sw = df_tw[(df_tw['datetime'] >= sw_start) & (df_tw['datetime'] < sw_end)]
+            
+            if not df_sw.empty:
+                for ip, group in df_sw.groupby('ip'):
+                    output_data.append({
+                        'time_window_number': window_counter,
+                        'sub_window_start': sw_start,
+                        'ip': ip,
+                        'numRequests': len(group),
+                        'tamanhoResposta': group['size'].sum(),
+                        'numRequestsJS': group['is_js'].sum(),
+                        'numRequestsHTML': group['is_html'].sum(),
+                        'numRequestsCSS': group['is_css'].sum(),
+                        'numGET': (group['method'] == 'GET').sum()
+                    })
 
-      
-        for ip, count in features["requests_per_ip"].items():
-            writer.writerow(["requests_per_ip", ip, count])
+        window_counter += 1  # Incrementar o número da janela de tempo
 
+    # Criar DataFrame com os dados dos subjanela
+    output_df = pd.DataFrame(output_data)
+
+    # Agora calculamos as estatísticas (média, variância e covariância) por IP para cada janela de 5 minutos
+    stats_data = []
+    for tw_start in time_windows:
+        tw_end = tw_start + timedelta(minutes=window)
+        df_tw = output_df[(output_df['time_window_number'] == window_counter - len(time_windows))]  # Filtrar pelas janelas por número
         
-        for ip, uris in features["uris_per_ip"].items():
-            for uri, count in uris.items():
-                writer.writerow(["uris_per_ip", f"{ip} -> {uri}", count])
+        if not df_tw.empty:
+            for ip, group in df_tw.groupby('ip'):  # Agrupar por IP
+                # Calcular média, variância e covariância
+                mean_values = group[['numRequests', 'tamanhoResposta', 'numRequestsJS', 'numRequestsHTML', 'numRequestsCSS', 'numGET']].mean()
+                variance_values = group[['numRequests', 'tamanhoResposta', 'numRequestsJS', 'numRequestsHTML', 'numRequestsCSS', 'numGET']].var()
+                cov_values = group[['numRequests', 'tamanhoResposta', 'numRequestsJS', 'numRequestsHTML', 'numRequestsCSS', 'numGET']].cov().values.flatten()
 
-        
-        for status_code, count in features["status_codes"].items():
-            writer.writerow(["status_codes", status_code, count])
+                stats_data.append({
+                    'time_window_number': window_counter - len(time_windows),
+                    'ip': ip,
+                    'mean_numRequests': mean_values['numRequests'],
+                    'mean_tamanhoResposta': mean_values['tamanhoResposta'],
+                    'mean_numRequestsJS': mean_values['numRequestsJS'],
+                    'mean_numRequestsHTML': mean_values['numRequestsHTML'],
+                    'mean_numRequestsCSS': mean_values['numRequestsCSS'],
+                    'mean_numGET': mean_values['numGET'],
+                    'variance_numRequests': variance_values['numRequests'],
+                    'variance_tamanhoResposta': variance_values['tamanhoResposta'],
+                    'variance_numRequestsJS': variance_values['numRequestsJS'],
+                    'variance_numRequestsHTML': variance_values['numRequestsHTML'],
+                    'variance_numRequestsCSS': variance_values['numRequestsCSS'],
+                    'variance_numGET': variance_values['numGET'],
+                    'covariance_numRequests_tamanhoResposta': cov_values[0], # Numero de requets esta corelacionado com o tamanho de reposta? Se for alta e positiva significa que quando o número de requisições aumenta, o tamanho das respostas também tende a aumentar.
+                    'covariance_numRequestsJS_numRequestsHTML_numRequestsCSS': cov_values[1], #Se a covariância entre essas métricas for alta, pode sugerir que um IP está a pedir mais desses tipos de arquivos ao mesmo tempo. (Secalhar este n faz mt sentido)
+                    'covariance_numGET_numRequests': cov_values[2],
+                    # Se for para adicinar mais covariancias...
+                })
 
-       
-        for ip, byte_count in features["bytes_per_ip"].items():
-            writer.writerow(["bytes_per_ip", ip, byte_count])
+        window_counter += 1  # Incrementar o número da janela de tempo
 
-       
-        for ip, user_agents in features["user_agents"].items():
-            writer.writerow(["user_agents", ip, "; ".join(user_agents)])
+    # Criar DataFrame e salvar no CSV
+    stats_df = pd.DataFrame(stats_data)
+    stats_df.to_csv(f'processed_{output_file}', index=False)
 
-        
-        for ip, interval_avg in features["request_intervals"].items():
-            writer.writerow(["request_intervals", ip, interval_avg])
-
-# LEr e Escrever dos ficheiros logs:
-log_file = 'extractionlogs.txt'
-output_file = 'outExtractedFeatures.csv'
-
-# Extração das features
-features = extract_features(log_file)
-save_features_to_csv(features, output_file)
-
-print(f"Features extraídas no ficheiro: {output_file}")
+# Executar o script
+process_logs('extractionlogs.txt', 'Outputmetrics.csv')
+print("Ficheiro guardado no processed_Outputmetrics.csv")
