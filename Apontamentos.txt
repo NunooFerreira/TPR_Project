@@ -1,0 +1,61 @@
+Professor reomcnad svm como modelo de ML?
+
+O problema e porque e que o problema nao e soluvel com uma solucao conhecidas/simples.
+COmo e que resolvemos os problemas:
+Como e que capturamos no ambiente real e no teste,
+E como procesamos os dados apartir dai. e Fica por aqui
+future works.
+
+
+Prefirmos um modelo com F1-Score nao tao alto mas com um falso positive mais baixo.
+Ou seja encontrar ume equilibrino entre F1Score e False negative baixo.
+
+Em vez de tomar decisao de 1 em 1 minuto, tomar decisao de 10 em 10minutos pela janelas temporais, 0.38% de falsos positivos e muito grande., cuidado.
+0.8 F1-Score e muito alto, neste caso especifico.
+True positives mais altos possiveis,
+False Positives mais baixo possiveis.
+
+Perguntas:
+1- Tempo de navegacao do website.
+2- Como vai ser o dataset, temos que misturar?
+    2.2 E 
+
+
+Respostas:
+1- Tempo de navegacao e 1 hora media, e podemos nao ter em conta o tempom absoluto.
+2- bots dummys podem ir, e especialmente o comportamento de cada 1 de nos usando scripts --> Dataset 
+
+
+O que temos que definir:
+1- Escolher as metricas que dao as contagens de 30 em 30 segundos. ex: contar html,js, contar numero de requests (GET).
+2- Tendo as contagens das janelas de 30 em 30 segiundos, fazer a media,variancia,Covariacna dessa janela de 5m.
+3- Fazer a media, variancia, Covariacna para todas as janelas de 5 minutos ou seja, 60minutos / 5m (janelas) = 12 janelas maiores.
+4- Finalmente fazer a media, Variancia, Covariacna dessas 12 janelas e printar na primeira linha do CV.
+
+
+
+
+Sobre os bots:
+
+
+ Attacktype Description
+ SingleURL
+ repeatedattack
+ Repeatedlyrequestthesamepageevery
+ 2secondsorplusarandomvaluerange
+ from0to8
+ MultipleURL
+ repeatedattack
+ Repeatedlyrequestfivefixedpages
+ every2secondsplusarandomvalue
+ rangefrom0to8
+ Randomselect
+ DDoSattack
+ Repeatedlyrequestrandompagesevery
+ 2secondsplusarandomvaluerange
+ from0to8
+ Sessionrepeated
+ DDoSattack
+ Repeatedlysendrequestthrough
+ simulatenormalusers’access
+ behaviors
