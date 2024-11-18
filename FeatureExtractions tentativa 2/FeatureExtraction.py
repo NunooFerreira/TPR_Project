@@ -3,7 +3,7 @@ import pandas as pd
 from datetime import datetime, timedelta
 
 # Função para processar e extrair as métricas dos logs
-def process_logs(log_file, output_file, window=5, sub_window=0.5):
+def process_logs(log_file, output_file, window=5, sub_window=0.5): # Recebe as janelas como parametros, 
     # Regex para extrair informações do log
     log_pattern = re.compile(
         r'(?P<ip>\d+\.\d+\.\d+\.\d+) - - \[(?P<datetime>.*?)\] "(?P<method>\w+) (?P<path>.*?) HTTP/.*" \d+ (?P<size>\d+)'
@@ -22,7 +22,7 @@ def process_logs(log_file, output_file, window=5, sub_window=0.5):
                 path = match.group('path')
                 size = int(match.group('size'))
 
-                # Definir tipo de request para métricas
+                # Definir tipo de request para métricas (Extrair o tipo de extensoes que queremos apartir do grupo Path)
                 is_js = '.js' in path
                 is_html = '.html' in path
                 is_css = '.css' in path
@@ -30,18 +30,18 @@ def process_logs(log_file, output_file, window=5, sub_window=0.5):
                 # Adicionar a entrada de log ao array de métricas
                 metrics.append([dt, ip, method, size, is_js, is_html, is_css])
 
-    # Converte métricas em um DataFrame do pandas para facilitar o processamento
+    # Converter as métricas num DataFrame pandas para o processamento
     df = pd.DataFrame(metrics, columns=['datetime', 'ip', 'method', 'size', 'is_js', 'is_html', 'is_css'])
 
-    # Definir intervalos de tempo para janelas de 5 minutos e sub-janelas de 30 segundos
+    # Definir intervalos de tempo para janelas de 5 minutos e sub-janelas de 30 segundos que definimos anteriormente.
     start_time = df['datetime'].min()
     end_time = df['datetime'].max()
-    time_windows = pd.date_range(start=start_time, end=end_time, freq=f'{window}min') # Tempo da Window principal
+    time_windows = pd.date_range(start=start_time, end=end_time, freq=f'{window}min')            # Tempo da Window principal
     sub_windows = pd.date_range(start=start_time, end=end_time, freq=f'{int(sub_window * 60)}s') # Tempo da subwindow 60s
 
     # Processamento das janelas e sub-janelas
     output_data = []
-    window_counter = 1  # Contador para as janelas de tempo
+    window_counter = 1  # Contador para as janelas de tempo (Aqui pode bugar o numero de janelas porque os logs ainda nao estao por ordem)
     for tw_start in time_windows:
         tw_end = tw_start + timedelta(minutes=window)
         df_tw = df[(df['datetime'] >= tw_start) & (df['datetime'] < tw_end)]
@@ -56,12 +56,12 @@ def process_logs(log_file, output_file, window=5, sub_window=0.5):
                         'time_window_number': window_counter,
                         'sub_window_start': sw_start,
                         'ip': ip,
-                        'numRequests': len(group),
-                        'tamanhoResposta': group['size'].sum(),
+                        'numRequests': len(group),  # Numero de requets feitos por um Ip
+                        'tamanhoResposta': group['size'].sum(), #Tamanho em bytes do requested
                         'numRequestsJS': group['is_js'].sum(),
                         'numRequestsHTML': group['is_html'].sum(),
                         'numRequestsCSS': group['is_css'].sum(),
-                        'numGET': (group['method'] == 'GET').sum()
+                        'numGET': (group['method'] == 'GET').sum() #Isto e o mesmo que numReq caso so tenhamos GET's
                     })
 
         window_counter += 1  # Incrementar o número da janela de tempo

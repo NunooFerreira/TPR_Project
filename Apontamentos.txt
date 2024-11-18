@@ -30,32 +30,24 @@ O que temos que definir:
 1- Escolher as metricas que dao as contagens de 30 em 30 segundos. ex: contar html,js, contar numero de requests (GET).
 2- Tendo as contagens das janelas de 30 em 30 segiundos, fazer a media,variancia,Covariacna dessa janela de 5m.
 3- Fazer a media, variancia, Covariacna para todas as janelas de 5 minutos ou seja, 60minutos / 5m (janelas) = 12 janelas maiores.
-4- Finalmente fazer a media, Variancia, Covariacna dessas 12 janelas e printar na primeira linha do CV.
+4- Finalmente fazer a media, Variancia, Covariacna dessas 12 janelas e printar na primeira linha do CV.  (Se quiser: Aqui fazer a matriz corelacao)
 
 
+Duvida: Tenho que fazer a Media, Variancia e Covariacna do Dataset total ou do Dataset normal + Data Atacante.
 
 
 Sobre os bots:
 
+ Attacktype Description:
+ 
+ -SingleURL repeated attack
+	Repeatedly request the same page every 2 seconds or plus a random value range from 0 to 8
+	
+ -MultipleURL repeated attack:
+	Repeatedly request five fixed pages every 2 seconds plus a random value range from 0 to 8
 
- Attacktype Description
- SingleURL
- repeatedattack
- Repeatedlyrequestthesamepageevery
- 2secondsorplusarandomvaluerange
- from0to8
- MultipleURL
- repeatedattack
- Repeatedlyrequestfivefixedpages
- every2secondsplusarandomvalue
- rangefrom0to8
- Randomselect
- DDoSattack
- Repeatedlyrequestrandompagesevery
- 2secondsplusarandomvaluerange
- from0to8
- Sessionrepeated
- DDoSattack
- Repeatedlysendrequestthrough
- simulatenormalusers’access
- behaviors
+-Random select DDoSattack:
+	Repeatedly request random pages every 2 seconds plus a random value range from 0 to 8
+	
+-Session repeated DDoSattack:
+	Repeatedly send request through simulate normal users’ access behaviors
