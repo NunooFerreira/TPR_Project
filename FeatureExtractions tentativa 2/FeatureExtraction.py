@@ -110,5 +110,5 @@ def process_logs(log_file, output_file, window=5, sub_window=0.5): # Recebe as j
     stats_df.to_csv(f'processed_{output_file}', index=False)
 
 # Executar o script
-process_logs('extractionlogs.txt', 'Outputmetrics.csv')
+process_logs('logs.txt', 'Outputmetrics.csv')
 print("Ficheiro guardado no processed_Outputmetrics.csv")
