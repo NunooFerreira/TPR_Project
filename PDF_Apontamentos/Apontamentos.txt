@@ -51,3 +51,41 @@ Sobre os bots:
 	
 -Session repeated DDoSattack:
 	Repeatedly send request through simulate normal users’ access behaviors
+
+
+Extras:
+
+
+
+Variancia distingue entre comportamentos com a mesma media.
+Por exemplo um user que pediu 5 pedidos por segundos  em 5 segundos ou um user que pediu 5 pedidos num segundo durante 5 segundos, porque a variancia mosstra a distancia entre 
+esses pedidos.
+
+
+Depois de ter o ficheiro com a data dos logs todos:
+
+MAis facil e usar o SVM- one class seguir o guiao, mais simples.
+Cmo o modelo cirado temos que testar, ver qual o desempenho do modelo.
+
+Temos que dar labels aos pacotes maus?
+
+Para treinar nao usar a primeira coluna(?)
+
+Slides Professor:
+Ensemble (2)
+Examples:
+ As metedologias e basicamente ter ou varios modelos, ou varios tamahhos da janelas, etc.
+ Ou seja ter o "porco a entrar e fazer varias salcichas e ver quais as melhores salcichas".
+
+MODELO ML:
+
+Juntar os dados bons todos, E treinar 70% deles, e depois testar os outros 30% bons.
+
+Depois disso, e pegar nos dados maus (bots), e (Ou testar ou treinar) - Duvida.
+
+
+Adicionar Metrica de tamanho medio dos ficheiros por exemplo um ratio de tamanho de ficheiros.
+RAtio e covariancia e o ML Que faz.
+
+Tamanho de resposta = Tamanho da imagem.
+é um numero de requests de imagems onde o tamanho de respotsa e superior a X.
