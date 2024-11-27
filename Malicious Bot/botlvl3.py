@@ -1,10 +1,11 @@
 import time
 import requests
+import random
 
-# File containing the list of HTML pages, Queremos aqui JS e CSS e IMAGES Tbm
+# File containing the list of HTML pages (including JS, CSS, images, etc.)
 pages_file = "resources/htmlpages.txt"
 
-# URL website (Apache server running locally)
+# URL of the website (Apache server running locally)
 base_url = "http://127.0.0.1"
 
 # Read the page names from the file
@@ -19,18 +20,21 @@ if not page_names:
     print(f"No pages found in '{pages_file}'. Make sure the file is not empty.")
     exit()
 
-# Primeiro teste com um Super Dummy Bot, Pedir apenas 1 pagina de x em x segundos estaticos... 
-page_to_request = page_names[1] # Neste caso pagina 1 dos resources.
-print(f"Simulating requests for the page: {page_to_request}")
+print(f"Available pages for random requests: {page_names}")
+
+# Set the interval between requests (in seconds)
+request_interval = 2  # Change this value for different sleep intervals
 
 while True:
     try:
-        url = f"{base_url}/{page_to_request}"
+        # Select a random page
+        random_page = random.choice(page_names)
+        url = f"{base_url}/{random_page}"
         print(f"Requesting {url}...")
         response = requests.get(url)
         print(f"Response: {response.status_code}")
-        time.sleep(2)  # Wait for 2 seconds before the next request
-    except KeyboardInterrupt:   #Quit if needed
+        time.sleep(request_interval)  # Wait for the interval before the next request
+    except KeyboardInterrupt:  # Quit if needed
         print("\nSimulation stopped.")
         break
     except Exception as e:
