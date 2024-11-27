@@ -2,7 +2,7 @@ import time
 import requests
 import random
 
-#Repeatedly request a random page every "x" seconds (using sleep(x))
+#Repeatedly request a random page every random seconds (using random agents)
 
 # File containing the list of HTML pages (including JS, CSS, images, etc.)
 pages_file = "resources/htmlpages.txt"
@@ -24,28 +24,31 @@ if not page_names:
 
 print(f"Available pages for random requests: {page_names}")
 
-# Set the interval between requests (in seconds)
-request_interval = 2  # Change this value for different sleep intervals
-
-
+# Fake User-Agent list
+user_agents = [
+    "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36",
+    "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/90.0.4430.212 Safari/537.36",
+    "Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:129.0) Gecko/20100101 Firefox/129.0",
+    "Safari/537.36 (iPhone; CPU iPhone OS 15_0 like Mac OS X)"
+]
 
 while True:
     try:
-        #Usar um Fake User-Agent randomly
-        user_agents = [
-            "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36",
-            "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/90.0.4430.212 Safari/537.36",
-            "Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:129.0) Gecko/20100101 Firefox/129.0"
-        ]
+        # Randomize User-Agent and page
         headers = {"User-Agent": random.choice(user_agents)}
-        
-        # Select a random page
         random_page = random.choice(page_names)
         url = f"{base_url}/{random_page}"
-        print(f"Requesting {url}...")
-        response = requests.get(url, headers=headers)  #Adicionar ou Remover o headers=headers, para remover o fake agent.
+        
+        # Make the request
+        print(f"Requesting {url} with User-Agent: {headers['User-Agent']}...")
+        response = requests.get(url, headers=headers)
         print(f"Response: {response.status_code}")
-        time.sleep(request_interval)  # Wait for the interval before the next request
+        
+        # Randomize sleep interval using a random function
+        sleep_interval = random.random() * 10  # Generates a random number between 0 and 10 seconds
+        print(f"Sleeping for {sleep_interval:.2f} seconds...")
+        time.sleep(sleep_interval)
+
     except KeyboardInterrupt:  # Quit if needed
         print("\nSimulation stopped.")
         break

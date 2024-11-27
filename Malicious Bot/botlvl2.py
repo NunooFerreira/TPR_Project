@@ -1,6 +1,8 @@
 import time
 import requests
 
+#Repeatedly request 4 fixed  pages randomly every "x" seconds (using sleep(x))
+
 # File containing the list of HTML pages (including JS, CSS, images, etc.)
 pages_file = "resources/htmlpages.txt"
 
@@ -29,12 +31,17 @@ print(f"Simulating requests for these pages: {pages_to_request}")
 # Set the interval between requests (in seconds)
 request_interval = 2  # Change this value for different sleep intervals
 
+#Usar um Fake User-Agent
+headers = {
+    "User-Agent": "Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:129.0) Gecko/20100101 Firefox/129.0"
+}
+
 while True:
     try:
         for page in pages_to_request:
             url = f"{base_url}/{page}"
             print(f"Requesting {url}...")
-            response = requests.get(url)
+            response = requests.get(url, headers=headers)  #Adicionar ou Remover o headers=headers, para remover o fake agent.
             print(f"Response: {response.status_code}")
             time.sleep(request_interval)  # Wait for the interval before requesting the next page
     except KeyboardInterrupt:  # Quit if needed

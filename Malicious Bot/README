@@ -4,15 +4,20 @@ Vamos ter varios tipos de Bots, aumentado a inteligencia a medida dos levels:
 Bot levels:
 
     lvl 1:
-        Repeatedly request the same page every "x" seconds (using sleep(x))
+        Repeatedly request the same page every "x" seconds (using sleep(x)) (always the same agent)
 
     lvl 2:
-        Repeatedly request 4 fixed  pages randomly every "x" seconds (using sleep(x))
+        Repeatedly request 4 fixed  pages randomly every "x" seconds (using sleep(x)) (always the same agent)
 
     lvl 3:
-        Repeatedly request a random page every "x" seconds (using sleep(x))
+        Repeatedly request a random page every "x" seconds (using sleep(x)) (using random agents)
 
     lvl 4:
-         Repeatedly send request through simulate normal users’ access behaviors
+        Repeatedly request a random page every random seconds (using random agents)
+
+    lvl 5:
+        Repeatedly request a random page every random seconds using a Gaussian distribution (using random agents)
 
 
+Duvidas:
+Faz sentido dar random no agent, ou manter sempre o mesmo?
