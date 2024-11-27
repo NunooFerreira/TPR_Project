@@ -463,3 +463,4 @@
 127.0.0.1 - - [21/Nov/2024:14:18:03 +0000] "GET /images/favicon.png HTTP/1.1" 200 2451 "http://127.0.0.1/blog.html" "Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:129.0) Gecko/20100101 Firefox/129.0"
 127.0.0.1 - - [21/Nov/2024:14:18:10 +0000] "GET /privacy-policy.html HTTP/1.1" 200 3563 "http://127.0.0.1/blog.html" "Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:129.0) Gecko/20100101 Firefox/129.0"
 127.0.0.1 - - [21/Nov/2024:14:18:45 +0000] "GET /privacy-policy.html HTTP/1.1" 200 3563 "http://127.0.0.1/blog.html" "Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:129.0) Gecko/20100101 Firefox/129.0"
+127.0.0.1 - - [21/Nov/2024:14:19:45 +0000] "GET /privacy-policy.html HTTP/1.1" 200 3563 "http://127.0.0.1/blog.html" "Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:129.0) Gecko/20100101 Firefox/129.0"
