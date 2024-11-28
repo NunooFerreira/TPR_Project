@@ -28,34 +28,14 @@ Respostas:
 
 O que temos que definir:
 1- Escolher as metricas que dao as contagens de 30 em 30 segundos. ex: contar html,js, contar numero de requests (GET).
-2- Tendo as contagens das janelas de 30 em 30 segiundos, fazer a media,variancia,Covariacna dessa janela de 5m.
+2- Tendo as contagens das janelas de 30 em 30 segiundos, fazer a media,variancia, dessa janela de 5m.
 3- Fazer a media, variancia, Covariacna para todas as janelas de 5 minutos ou seja, 60minutos / 5m (janelas) = 12 janelas maiores.
 4- Finalmente fazer a media, Variancia, Covariacna dessas 12 janelas e printar na primeira linha do CV.  (Se quiser: Aqui fazer a matriz corelacao)
 
 
-Duvida: Tenho que fazer a Media, Variancia e Covariacna do Dataset total ou do Dataset normal + Data Atacante.
-
-
-Sobre os bots:
-
- Attacktype Description:
- 
- -SingleURL repeated attack
-	Repeatedly request the same page every 2 seconds or plus a random value range from 0 to 8
-	
- -MultipleURL repeated attack:
-	Repeatedly request five fixed pages every 2 seconds plus a random value range from 0 to 8
-
--Random select DDoSattack:
-	Repeatedly request random pages every 2 seconds plus a random value range from 0 to 8
-	
--Session repeated DDoSattack:
-	Repeatedly send request through simulate normal users’ access behaviors
 
 
 Extras:
-
-
 
 Variancia distingue entre comportamentos com a mesma media.
 Por exemplo um user que pediu 5 pedidos por segundos  em 5 segundos ou um user que pediu 5 pedidos num segundo durante 5 segundos, porque a variancia mosstra a distancia entre 
@@ -85,7 +65,8 @@ Depois disso, e pegar nos dados maus (bots), e (Ou testar ou treinar) - Duvida.
 
 
 Adicionar Metrica de tamanho medio dos ficheiros por exemplo um ratio de tamanho de ficheiros.
-RAtio e covariancia e o ML Que faz.
+
+ratio e covariancia e o ML Que faz.
 
 Tamanho de resposta = Tamanho da imagem.
 é um numero de requests de imagems onde o tamanho de respotsa e superior a X.
