@@ -17,6 +17,15 @@ Bot levels:
 
     lvl 5:
         Repeatedly request a random page every random seconds using a Gaussian distribution (using random agents)
+    
+
+
+Os 30% sao conjunto dos nossos com os dos bots.
+
+Para depois extracao das features para o ML:
+    lvl 6:
+        Comporamento mais igual ao humano
+
 
 
 Duvidas:

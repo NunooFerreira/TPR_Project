@@ -70,3 +70,8 @@ ratio e covariancia e o ML Que faz.
 
 Tamanho de resposta = Tamanho da imagem.
 é um numero de requests de imagems onde o tamanho de respotsa e superior a X.
+
+
+Tirar a cotangem geral da media e da variancia.
+
+Mudar o codigo para:

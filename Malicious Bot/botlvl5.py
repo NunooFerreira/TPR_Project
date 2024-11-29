@@ -26,10 +26,7 @@ print(f"Available pages for Gaussian random requests: {page_names}")
 
 # Fake User-Agent list
 user_agents = [
-    "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36",
-    "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/90.0.4430.212 Safari/537.36",
-    "Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:129.0) Gecko/20100101 Firefox/129.0",
-    "Safari/537.36 (iPhone; CPU iPhone OS 15_0 like Mac OS X)"
+    "Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:129.0) Gecko/20100101 Firefox/129.0"
 ]
 
 # Gaussian distribution parameters (Escolher aqui os valores de acordo com a media do numero de vezes que clicamos no website.)
