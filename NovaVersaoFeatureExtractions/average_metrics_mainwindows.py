@@ -3,7 +3,7 @@ from datetime import datetime, timedelta
 
 # Define the log file and output CSV
 log_file = 'logs.txt'
-output_avg_csv = '5min_avg_metrics.csv'
+output_avg_csv = 'Average_5min_avg_metrics.csv'
 
 # Function to parse log lines
 def parse_log_line(line):

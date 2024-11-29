@@ -1,9 +1,10 @@
 import pandas as pd
 from datetime import datetime, timedelta
 
-# Define the log file and output CSV
+# Define the log file and output CSVs
 log_file = 'logs.txt'
-output_csv = 'TRUE_VERSION_30s_window_metrics.csv'
+teste_30s_csv = '30s_window_metrics.csv'
+output_5min_csv = 'Count_5min__window_metrics.csv'
 
 # Function to parse log lines
 def parse_log_line(line):
@@ -14,7 +15,6 @@ def parse_log_line(line):
     try:
         ip = parts[0]
         timestamp = datetime.strptime(parts[3][1:], "%d/%b/%Y:%H:%M:%S")
-        request = parts[5][1:]
         url = parts[6]
 
         is_js = url.endswith('.js')
@@ -49,11 +49,11 @@ def read_logs(file_path):
                 data.append(parsed)
     return pd.DataFrame(data)
 
-# Calculate metrics within a 30-second window
+# Calculate metrics within a time window
 def calculate_metrics(df, start_time, end_time):
     window_data = df[(df['timestamp'] >= start_time) & (df['timestamp'] < end_time)]
     metrics = {
-        'numRequests': len(window_data),                    # len -> Conta o número de linhas no DataFrame filtrado para a janela.
+        'numRequests': len(window_data),
         'tamanhoResposta': window_data['tamanhoResposta'].sum(),
         'totalImageSize': window_data.loc[window_data['is_image'], 'image_size'].sum(),
         'RequestsJS': window_data['is_js'].sum(),
@@ -62,31 +62,49 @@ def calculate_metrics(df, start_time, end_time):
     }
     return metrics
 
-# Main function to process logs and calculate 30-second windows
-def process_logs(log_file, output_csv):
+# Process logs and calculate metrics for both 30-second and 5-minute sliding windows
+def process_logs(log_file, teste_30s_csv, output_5min_csv):
     df = read_logs(log_file)
     df.sort_values(by='timestamp', inplace=True)
 
     start_time = df['timestamp'].min()
     end_time = df['timestamp'].max()
 
-    current_start = start_time
-    window_size = timedelta(seconds=30)
+    current_start_30s = start_time
+    window_30s_size = timedelta(seconds=30)
 
-    results = []
+    current_start_5min = start_time
+    window_5min_size = timedelta(minutes=5)
+    slide_step = timedelta(minutes=1)
 
-    while current_start + window_size <= end_time:
-        metrics = calculate_metrics(df, current_start, current_start + window_size)
-        metrics['window_start'] = current_start
-        metrics['window_end'] = current_start + window_size
-        results.append(metrics)
-        current_start += window_size
+    results_30s = []
+    results_5min = []
 
-    # Save results to CSV
-    results_df = pd.DataFrame(results)
-    results_df.to_csv(output_csv, index=False)
+    # Calculate 30-second windows
+    while current_start_30s + window_30s_size <= end_time:
+        metrics = calculate_metrics(df, current_start_30s, current_start_30s + window_30s_size)
+        metrics['window_start'] = current_start_30s
+        metrics['window_end'] = current_start_30s + window_30s_size
+        results_30s.append(metrics)
+        current_start_30s += window_30s_size
+
+    # Calculate 5-minute sliding windows
+    while current_start_5min + window_5min_size <= end_time:
+        metrics = calculate_metrics(df, current_start_5min, current_start_5min + window_5min_size)
+        metrics['window_start'] = current_start_5min
+        metrics['window_end'] = current_start_5min + window_5min_size
+        results_5min.append(metrics)
+        current_start_5min += slide_step
+
+    # Save results to CSVs
+    results_30s_df = pd.DataFrame(results_30s)
+    results_30s_df.to_csv(teste_30s_csv, index=False)
+
+    results_5min_df = pd.DataFrame(results_5min)
+    results_5min_df.to_csv(output_5min_csv, index=False)
 
 # Run the script
 if __name__ == "__main__":
-    process_logs(log_file, output_csv)
-    print(f"30-second window metrics saved to {output_csv}")
+    process_logs(log_file, teste_30s_csv, output_5min_csv)
+    print(f"30-second window metrics saved to {teste_30s_csv}")
+    print(f"5-minute sliding window metrics saved to {output_5min_csv}")
