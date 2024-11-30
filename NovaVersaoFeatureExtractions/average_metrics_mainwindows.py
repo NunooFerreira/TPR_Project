@@ -80,8 +80,8 @@ def process_logs(log_file, output_avg_csv):
         metrics = calculate_metrics(df, current_start, current_start + window_size)
         averages = {
             'avgNumRequests': metrics['numRequests'] / 10,  # 10 sub-windows of 30 seconds
-            'avgTamanhoResposta': metrics['tamanhoResposta'] / 300,  # 300 seconds
-            'avgTotalImageSize': metrics['totalImageSize'] / 300,
+            'avgTamanhoResposta': metrics['tamanhoResposta'] / 10,  # Se for dividir por 300 segundos estou a ir buscar o tamanhodeResposta por cada segundo, se for por 10 e por cada 30 segundos.
+            'avgTotalImageSize': metrics['totalImageSize'] / 10,
             'avgRequestsJS': metrics['RequestsJS'] / 10,
             'avgRequestsHTML': metrics['RequestsHTML'] / 10,
             'avgRequestsCSS': metrics['RequestsCSS'] / 10,
