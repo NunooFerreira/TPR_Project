@@ -1,22 +1,16 @@
 import pandas as pd
 import matplotlib.pyplot as plt
-import sys
 
 
-
-#df = pd.read_csv('30s_window_metrics.csv')
+df = pd.read_csv('30s_window_metrics.csv')                 #Mudar o ficheiro para dar plot
 # df = pd.read_csv('Count_5min__window_metrics.csv')
 # df = pd.read_csv('Average_5min_avg_metrics.csv')
 
-# ax=[]
-# for i in range(6):
-#     ax.append(plt.subplot(3,2,i+1))
-
 t = df['window_start']
-t = [tt[11:] for tt in t]
-
+t = [tt[11:] for tt in t]   #queremos apartir da coluna 11, das horas
 
 metrics = list(df.keys())
+
 for i in range(6):
     fig=plt.figure(figsize=(12,5))
     ax=plt.axes()
