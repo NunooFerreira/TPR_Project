@@ -5,42 +5,41 @@ from datetime import datetime, timedelta
 log_file = 'logs.txt'
 output_csv = 'Combined_5min_metrics.csv'
 
-if __name__ == "__main__":
-    data = []
+data = []
 
-    # Read and parse log file
-    with open(log_file, 'r') as f:
-        for line in f:
-            parts = line.split()
-            if len(parts) < 9:
-                continue
+# Read and parse log file
+with open(log_file, 'r') as f:
+    for line in f:
+        parts = line.split()
+        if len(parts) < 9:
+            continue
 
-            try:
-                ip = parts[0]
-                timestamp = datetime.strptime(parts[3][1:], "%d/%b/%Y:%H:%M:%S")
-                url = parts[6]
+        try:
+            ip = parts[0]
+            timestamp = datetime.strptime(parts[3][1:], "%d/%b/%Y:%H:%M:%S")
+            url = parts[6]
 
-                is_js = url.endswith('.js')
-                is_html = url.endswith('.html')
-                is_css = url.endswith('.css')
-                is_image = url.endswith(('.png', '.jpg', '.jpeg', '.gif', '.ico'))
+            is_js = url.endswith('.js')
+            is_html = url.endswith('.html')
+            is_css = url.endswith('.css')
+            is_image = url.endswith(('.png', '.jpg', '.jpeg', '.gif', '.ico'))
 
-                tamanhoResposta = int(parts[9]) if len(parts) > 9 and parts[9].isdigit() else 0
-                image_size = tamanhoResposta if is_image else 0
+            tamanhoResposta = int(parts[9]) if len(parts) > 9 and parts[9].isdigit() else 0
+            image_size = tamanhoResposta if is_image else 0
 
-                data.append({
-                    'ip': ip,
-                    'timestamp': timestamp,
-                    'tamanhoResposta': tamanhoResposta,
-                    'is_js': is_js,
-                    'is_html': is_html,
-                    'is_css': is_css,
-                    'is_image': is_image,
-                    'image_size': image_size
-                })
+            data.append({
+                'ip': ip,
+                'timestamp': timestamp,
+                'tamanhoResposta': tamanhoResposta,
+                'is_js': is_js,
+                'is_html': is_html,
+                'is_css': is_css,
+                'is_image': is_image,
+                'image_size': image_size
+            })
 
-            except Exception as e:
-                continue
+        except Exception as e:
+            continue
 
     df = pd.DataFrame(data)
     df.sort_values(by='timestamp', inplace=True)

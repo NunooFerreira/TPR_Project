@@ -10,20 +10,23 @@ Bot levels:
         Repeatedly request 4 fixed  pages randomly every "x" seconds (using sleep(x)) 
 
     lvl 3:
-        Repeatedly request a random page every "x" seconds (using sleep(x)) (using random agents)
+        Repeatedly request a random page every "x" seconds (using sleep(x)) 
 
     lvl 4:
         Repeatedly request a random page every random seconds (using random agents)
 
     lvl 5:
-        Repeatedly request a random page every random seconds using a Gaussian distribution (using random agents)
+        Repeatedly request a random page every random seconds using a Gaussian distribution
+    
+    lvl 6:
     
 
 
 Os 30% sao conjunto dos nossos com os dos bots.
 
 Para depois extracao das features para o ML:
-    lvl 6:
+Para o lvl 6 bot e ter em conta os tempos de silencio 
+    lvl expert:
         Comporamento mais igual ao humano
 
 
