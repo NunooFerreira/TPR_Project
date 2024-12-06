@@ -1,16 +1,22 @@
+import webbrowser
 import time
 import random
-import subprocess
 
 urls = [
-    "http://example.com/page1",
-    "http://example.com/page2",
-    "http://example.com/page3",
-    "http://example.com/page4"
+    "blog.html",
+    "about.html",
+    "index.html",
+    "career.html"
 ]
-sleep_time = 5  # Adjust as needed
 
 while True:
-    url = random.choice(urls)
-    subprocess.run(["curl", "-s", url])
-    time.sleep(sleep_time)
+    # Select a random page from the list
+    selected_page = random.choice(urls)
+
+    # Construct the full URL
+    full_url = "http://127.0.0.1/" + selected_page
+
+    # Visit the constructed URL
+    print(f"Opening {full_url}")
+    webbrowser.open(full_url)
+    time.sleep(5)
