@@ -6,7 +6,7 @@ from bs4 import BeautifulSoup
 
 base_url = 'http://127.0.0.1/index.html'
 
-interval = 10
+interval = 7
 
 while True:
     # Request the main page
