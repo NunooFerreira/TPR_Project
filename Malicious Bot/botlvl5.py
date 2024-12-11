@@ -1,57 +1,74 @@
-import time
 import requests
+import time
 import random
+from urllib.parse import urljoin
+from bs4 import BeautifulSoup
 
-#Repeatedly request a random page every random seconds using gaucian (using random agents)
-
-# File containing the list of HTML pages (including JS, CSS, images, etc.)
-pages_file = "resources/htmlpages.txt"
-
-# URL of the website (Apache server running locally)
-base_url = "http://127.0.0.1"
-
-# Read the page names from the file
-try:
-    with open(pages_file, "r") as file:
-        page_names = [line.strip() for line in file if line.strip()]
-except FileNotFoundError:
-    print(f"Error: File '{pages_file}' not found.")
-    exit()
-
-if not page_names:
-    print(f"No pages found in '{pages_file}'. Make sure the file is not empty.")
-    exit()
-
-print(f"Available pages for Gaussian random requests: {page_names}")
-
-# Fake User-Agent list
-user_agents = [
-    "Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:129.0) Gecko/20100101 Firefox/129.0"
+# List of all the pages to simulate requests
+fixed_pages = [
+    'http://127.0.0.1/404.html',
+    'http://127.0.0.1/about.html',
+    'http://127.0.0.1/about3.html',
+    'http://127.0.0.1/blog.html',
+    'http://127.0.0.1/blog-single.html',
+    'http://127.0.0.1/career.html',
+    'http://127.0.0.1/comming-soon.html',
+    'http://127.0.0.1/contact.html',
+    'http://127.0.0.1/FAQ.html',
+    'http://127.0.0.1/homepage-2.html',
+    'http://127.0.0.1/homepage-3.html',
+    'http://127.0.0.1/index.html',
+    'http://127.0.0.1/index2.html',
+    'http://127.0.0.1/index3.html',
+    'http://127.0.0.1/privacy-policy.html',
+    'http://127.0.0.1/service.html',
+    'http://127.0.0.1/sign-in.html',
+    'http://127.0.0.1/sign-up.html',
+    'http://127.0.0.1/team.html',
+    'http://127.0.0.1/why.html'
 ]
 
-# Gaussian distribution parameters (Escolher aqui os valores de acordo com a media do numero de vezes que clicamos no website.)
-mean_sleep = 5  # Mean sleep interval in seconds   
-std_dev_sleep = 2  # Standard deviation of sleep interval
+# Mean and standard deviation for the Gaussian distribution
+mean_interval = 10  # Average interval in seconds
+std_dev_interval = 2  # Standard deviation in seconds
 
 while True:
-    try:
-        # Randomize User-Agent and page
-        headers = {"User-Agent": random.choice(user_agents)}
-        random_page = random.choice(page_names)
-        url = f"{base_url}/{random_page}"
-        
-        # Make the request
-        print(f"Requesting {url} with User-Agent: {headers['User-Agent']}...")
-        response = requests.get(url, headers=headers)
-        print(f"Response: {response.status_code}")
-        
-        # Generate Gaussian random sleep interval
-        sleep_interval = max(0, random.gauss(mean_sleep, std_dev_sleep))  # Ensure non-negative sleep
-        print(f"Sleeping for {sleep_interval:.2f} seconds...")
-        time.sleep(sleep_interval)
-    except KeyboardInterrupt:  # Quit if needed
-        print("\nSimulation stopped.")
-        break
-    except Exception as e:
-        print(f"An error occurred: {e}")
-        break
+    # Randomly choose one of the fixed pages
+    chosen_page = random.choice(fixed_pages)
+
+    # Request the chosen page
+    response = requests.get(chosen_page)
+    response.raise_for_status()
+
+    # Parse the page content using BeautifulSoup
+    soup = BeautifulSoup(response.content, 'html.parser')
+
+    # Find and request all CSS, JS, and image resources
+    resources = []
+    for tag in soup.find_all(['link', 'script', 'img']):
+        if tag.name == 'link' and tag.get('rel') == ['stylesheet']:
+            resource_url = urljoin(chosen_page, tag['href'])
+        elif tag.name == 'script' and tag.get('src'):
+            resource_url = urljoin(chosen_page, ta  g['src'])
+        elif tag.name == 'img' and tag.get('src'):
+            resource_url = urljoin(chosen_page, tag['src'])
+        else:
+            continue
+
+        resources.append(resource_url)
+
+    # Choose a random subset of resources to make the requests more realistic
+    if resources:
+        num_requests = random.randint(1, len(resources))
+        selected_resources = random.sample(resources, num_requests)
+
+        # Make a request for each selected resource
+        for resource_url in selected_resources:
+            requests.get(resource_url, timeout=5)
+
+    print(f"Page {chosen_page} and random resources requested successfully.")
+
+    # Generate a random interval based on a Gaussian distribution
+    interval = max(2, random.gauss(mean_interval, std_dev_interval))  # At least 2 seconds
+    print(f"Waiting for {interval:.2f} seconds before the next request...")
+    time.sleep(interval)
