@@ -26,9 +26,11 @@ fixed_pages = [
     'http://127.0.0.1/team.html',
     'http://127.0.0.1/why.html'
 ]
-interval = random.randrange(2,10)
 
 while True:
+
+    interval = random.randrange(7,15)       #Random intervalo de requests
+
     # Randomly choose one of the 4 fixed pages
     chosen_page = random.choice(fixed_pages)
 
@@ -60,7 +62,7 @@ while True:
     for resource_url in selected_resources:
         requests.get(resource_url, timeout=5)
 
-    print(f"Page {chosen_page} and random resources requested successfully.")
 
+    print(f"Page {chosen_page} and random resources requested successfully.")
     print(f"Waiting for {interval} seconds before the next request...")
     time.sleep(interval)
