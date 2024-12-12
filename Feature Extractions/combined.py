@@ -2,7 +2,7 @@ import pandas as pd
 from datetime import datetime, timedelta
 
 # Define the log file and output CSV
-log_file = 'logs.txt'
+log_file = 'logs_nuno.txt'
 output_csv = 'Combined_5min_metrics.csv'
 
 data = []
