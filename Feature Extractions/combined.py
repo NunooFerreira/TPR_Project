@@ -44,6 +44,8 @@ with open(log_file, 'r') as f:
     df = pd.DataFrame(data)
     df.sort_values(by='timestamp', inplace=True)
 
+    df['time_diff'] = df['timestamp'].diff().dt.total_seconds().fillna(0)
+
     start_time = df['timestamp'].min()
     end_time = df['timestamp'].max()
 
@@ -62,6 +64,12 @@ with open(log_file, 'r') as f:
         requestsJS = window_data['is_js'].sum()
         requestsHTML = window_data['is_html'].sum()
         requestsCSS = window_data['is_css'].sum()
+
+        time_diffs = window_data['time_diff']
+        avg_time_diff = time_diffs.mean() if not time_diffs.empty else 0
+
+        time_diffs_gt_3 = time_diffs[time_diffs > 3]
+        avg_time_diff_gt_3 = time_diffs_gt_3.mean() if not time_diffs_gt_3.empty else 0
 
         averages = {
             'avgNumRequests': numRequests / 10,  # 10 sub-windows of 30 seconds
@@ -85,6 +93,8 @@ with open(log_file, 'r') as f:
             'avgRequestsJS': averages['avgRequestsJS'],
             'avgRequestsHTML': averages['avgRequestsHTML'],
             'avgRequestsCSS': averages['avgRequestsCSS'],
+            'avgTimeDiff': avg_time_diff,
+            'avgTimeDiffGT3': avg_time_diff_gt_3, 
             'window_start': current_start,
             'window_end': current_start + window_size
         }
