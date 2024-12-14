@@ -2,8 +2,8 @@ import pandas as pd
 from datetime import datetime, timedelta
 
 # Define the log file and output CSV
-log_file = 'Botlvl1.txt'
-output_csv = 'BOT_Combined_5min_metrics.csv'
+log_file = '../AccessLogs/Nunoaccess.log'
+output_csv = '../OutputedCsv/Nuno_Combined_5min_metrics.csv'
 
 data = []
 
@@ -89,7 +89,7 @@ with open(log_file, 'r') as f:
             'avgRequestsJS': requestsJS / 10,
             'avgRequestsHTML': requestsHTML / 10,
             'avgRequestsCSS': requestsCSS / 10,
-            'avgSilenceTime': total_silence_time.total_seconds() / (silence_count if silence_count else 0)  # Avoid division by zero
+            'avgSilenceTime': total_silence_time.total_seconds() / (silence_count if silence_count else 1)  # Avoid division by zero
         }
 
         metrics = {
