@@ -33,8 +33,8 @@ def scatter_plot(file1, file2, metric_x, metric_y):
     plt.show()
 
 # Specify the input CSV files
-file1 = 'Nuno_Combined_5min_metrics.csv'  # Replace with your first CSV file
-file2 = 'BOTLVL1_Combined_5min_metrics.csv'  # Replace with your second CSV file
+file1 = '../OutputedCsv/Nuno_Combined_5min_metrics.csv'  # Replace with your first CSV file
+file2 = '../OutputedCsv/BOTLVL6_Combined_5min_metrics.csv'  # Replace with your second CSV file
 
 # Specify the metrics for X and Y axes
 metric_x = 'numRequests'  # Replace with the desired metric for the X-axis
