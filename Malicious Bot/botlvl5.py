@@ -29,8 +29,8 @@ fixed_pages = [
 ]
 
 # Mean and standard deviation for the Gaussian distribution
-mean_interval = 10  # Average interval in seconds
-std_dev_interval = 2  # Standard deviation in seconds
+mean_interval = 16  # Average interval in seconds
+std_dev_interval = 4  # Standard deviation in seconds
 
 while True:
     # Randomly choose one of the fixed pages
@@ -49,7 +49,7 @@ while True:
         if tag.name == 'link' and tag.get('rel') == ['stylesheet']:
             resource_url = urljoin(chosen_page, tag['href'])
         elif tag.name == 'script' and tag.get('src'):
-            resource_url = urljoin(chosen_page, ta  g['src'])
+            resource_url = urljoin(chosen_page, tag['src'])
         elif tag.name == 'img' and tag.get('src'):
             resource_url = urljoin(chosen_page, tag['src'])
         else:

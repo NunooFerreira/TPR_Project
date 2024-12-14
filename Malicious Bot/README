@@ -16,7 +16,7 @@ Bot levels:
         Repeatedly request a random page every random seconds 
 
     lvl 5:
-        Repeatedly request a random page every random seconds using a Gaussian distribution 
+        Repeatedly request a random page every random seconds using a Gaussian distribution 15average seconds
     
 
 
