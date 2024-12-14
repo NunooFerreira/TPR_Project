@@ -3,10 +3,6 @@ import time
 import random
 from urllib.parse import urljoin
 from bs4 import BeautifulSoup
-import logging
-
-# Configure logging
-logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(message)s')
 
 # List of all the pages to simulate requests
 fixed_pages = [
@@ -32,98 +28,54 @@ fixed_pages = [
     'http://127.0.0.1/why.html'
 ]
 
-# Gaussian distribution parameters for request intervals
-mean_interval = 10  # Average interval in seconds
-std_dev_interval = 2  # Standard deviation in seconds
+# Mean and standard deviation for the Gaussian distribution to mimic behavior
+mean_interval = 40.25505546  # Average interval in seconds
+std_dev_interval = 5  # Standard deviation in seconds
 
-# Weighted probabilities for resource types
-weights = {'css': 0.4, 'js': 0.3, 'img': 0.3}
-
-# Dynamic interval calculation based on silence metrics
-def calculate_dynamic_interval(silence_count, total_silence_time):
-    base_interval = total_silence_time / max(1, silence_count)  # Avoid division by zero
-    noise = random.gauss(0, 2)  # Add small Gaussian noise
-    return max(2, base_interval + noise)
-
-# Determine bot profile based on silence count
-def get_bot_profile(silence_count):
-    if silence_count > 50:
-        return "stealthy"
-    elif silence_count < 20:
-        return "aggressive"
-    return "random"
-
-# Adjust interval parameters based on bot profile
-def adjust_intervals_by_profile(profile):
-    global mean_interval, std_dev_interval
-    if profile == "stealthy":
-        mean_interval = 20
-        std_dev_interval = 5
-    elif profile == "aggressive":
-        mean_interval = 5
-        std_dev_interval = 2
-    else:  # Random profile
-        mean_interval = random.choice([10, 15, 20])
-        std_dev_interval = 3
-
-while True:
-    # Simulated metrics for silence (these should be dynamically updated in real scenarios)
-    silence_count = random.randint(10, 60)  # Example simulated value
-    total_silence_time = random.randint(100, 300)  # Example simulated value
-
-    # Log silence metrics
-    logging.info(f"SilenceCount: {silence_count}, TotalSilenceTime: {total_silence_time}")
-
-    # Determine bot profile and adjust intervals
-    profile = get_bot_profile(silence_count)
-    adjust_intervals_by_profile(profile)
-
+def make_request():
     # Randomly choose one of the fixed pages
     chosen_page = random.choice(fixed_pages)
 
     # Request the chosen page
-    try:
-        response = requests.get(chosen_page)
-        response.raise_for_status()
+    response = requests.get(chosen_page)
+    response.raise_for_status()
 
-        # Parse the page content using BeautifulSoup
-        soup = BeautifulSoup(response.content, 'html.parser')
+    # Parse the page content using BeautifulSoup
+    soup = BeautifulSoup(response.content, 'html.parser')
 
-        # Find and request all CSS, JS, and image resources
-        resources = []
-        for tag in soup.find_all(['link', 'script', 'img']):
-            if tag.name == 'link' and tag.get('rel') == ['stylesheet']:
-                resource_url = urljoin(chosen_page, tag['href'])
-            elif tag.name == 'script' and tag.get('src'):
-                resource_url = urljoin(chosen_page, tag['src'])
-            elif tag.name == 'img' and tag.get('src'):
-                resource_url = urljoin(chosen_page, tag['src'])
-            else:
-                continue
+    # Find and request all CSS, JS, and image resources
+    resources = []
+    for tag in soup.find_all(['link', 'script', 'img']):
+        if tag.name == 'link' and tag.get('rel') == ['stylesheet']:
+            resource_url = urljoin(chosen_page, tag['href'])
+        elif tag.name == 'script' and tag.get('src'):
+            resource_url = urljoin(chosen_page, tag['src'])
+        elif tag.name == 'img' and tag.get('src'):
+            resource_url = urljoin(chosen_page, tag['src'])
+        else:
+            continue
 
-            resources.append(resource_url)
+        resources.append(resource_url)
 
-        # Select resources to request based on weighted probabilities
-        selected_resources = []
-        for resource_url in resources:
-            resource_type = (
-                'css' if '.css' in resource_url else
-                'js' if '.js' in resource_url else
-                'img'
-            )
-            if random.random() < weights[resource_type]:
-                selected_resources.append(resource_url)
+    # Choose a random subset of resources to make the requests more realistic
+    if resources:
+        num_requests = random.randint(1, len(resources))
+        selected_resources = random.sample(resources, num_requests)
 
-        # Request a random subset of the selected resources
-        for resource_url in random.sample(selected_resources, random.randint(1, len(selected_resources))):
+        # Make a request for each selected resource
+        for resource_url in selected_resources:
             requests.get(resource_url, timeout=5)
 
-        logging.info(f"Page {chosen_page} and random resources requested successfully.")
+    print(f"Page {chosen_page} and random resources requested successfully.")
 
-    except requests.RequestException as e:
-        logging.error(f"Failed to request {chosen_page}: {e}")
+while True:
+    make_request()
 
-    # Generate a dynamic interval based on silence metrics
-    interval = calculate_dynamic_interval(silence_count, total_silence_time)
-    logging.info(f"Waiting for {interval:.2f} seconds before the next request...")
+    # Generate a random interval based on a Gaussian distribution
+    interval = random.gauss(mean_interval, std_dev_interval)
+
+    # Clamp interval to ensure it's within a reasonable range (e.g., 20 to 60 seconds)
+    interval = max(20, min(interval, 60))
+
+    print(f"Waiting for {interval:.2f} seconds before the next request...")
     time.sleep(interval)
