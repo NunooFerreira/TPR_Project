@@ -74,4 +74,5 @@ Tamanho de resposta = Tamanho da imagem.
 
 Tirar a cotangem geral da media e da variancia.
 
-Mudar o codigo para:
+-- normalizar os valores.
+-- fAZER O CENTROID DE 70% DOS DADOS BONS, E DEPOIS DAR 30% DOS DADOS BOMS E 100% DOS MAUS JUNTOS E CALCULAR A DISTANCIA ATE O CENTROID E DE ACORDO COM UM threshold, DAR LABELS
