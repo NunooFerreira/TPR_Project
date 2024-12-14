@@ -5,6 +5,8 @@ from datetime import datetime, timedelta
 log_file = '../AccessLogs/Nunoaccess.log'
 output_csv = '../OutputedCsv/Nuno_Combined_5min_metrics.csv'
 
+#ULTIMAS DUAS LINHAS SAO O MAX E MIN RESPETIVAMENTE.
+
 data = []
 
 # Read and parse log file
@@ -116,5 +118,13 @@ with open(log_file, 'r') as f:
         current_start += slide_step
 
     results_df = pd.DataFrame(results)
+    results_df = results_df.drop(columns=['window_start', 'window_end'])
+
+    # Add a row for the maximum and minimum across all columns
+    max_row = results_df.max().rename('Maximum')
+    min_row = results_df.min().rename('Minimum')
+    results_df = pd.concat([results_df, max_row.to_frame().T, min_row.to_frame().T])
+
+    # Save to CSV
     results_df.to_csv(output_csv, index=False)
-    print(f"Combined 5-minute metrics with silence times saved to {output_csv}")
+    print(f"Combined 5-minute metrics with statistics saved to {output_csv}")
