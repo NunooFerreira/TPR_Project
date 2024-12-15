@@ -44,29 +44,41 @@ def make_request():
     soup = BeautifulSoup(response.content, 'html.parser')
 
     # Find and request all CSS, JS, and image resources
-    resources = []
+    resources = {'css': [], 'js': [], 'img': []}
     for tag in soup.find_all(['link', 'script', 'img']):
         if tag.name == 'link' and tag.get('rel') == ['stylesheet']:
             resource_url = urljoin(chosen_page, tag['href'])
+            resources['css'].append(resource_url)
         elif tag.name == 'script' and tag.get('src'):
             resource_url = urljoin(chosen_page, tag['src'])
+            resources['js'].append(resource_url)
         elif tag.name == 'img' and tag.get('src'):
             resource_url = urljoin(chosen_page, tag['src'])
-        else:
-            continue
+            resources['img'].append(resource_url)
 
-        resources.append(resource_url)
+    # Reduce the number of CSS and JavaScript requests
+    selected_resources = []
 
-    # Choose a smaller random subset of resources to make the requests more realistic
-    if resources:
-        num_requests = max(1, random.randint(1, len(resources) // 2))  # Halve the number of requests
-        selected_resources = random.sample(resources, num_requests)
+    if resources['css']:
+        num_css = random.randint(0, len(resources['css']) // 4)  # Request fewer CSS files
+        selected_resources.extend(random.sample(resources['css'], num_css))
 
-        # Make a request for each selected resource
-        for resource_url in selected_resources:
+    if resources['js']:
+        num_js = random.randint(0, len(resources['js']) // 4)  # Request fewer JS files
+        selected_resources.extend(random.sample(resources['js'], num_js))
+
+    if resources['img']:
+        num_img = random.randint(1, len(resources['img']) // 2)  # Request more images
+        selected_resources.extend(random.sample(resources['img'], num_img))
+
+    # Make a request for each selected resource
+    for resource_url in selected_resources:
+        try:
             requests.get(resource_url, timeout=5)
+        except requests.RequestException as e:
+            print(f"Failed to fetch resource {resource_url}: {e}")
 
-    print(f"Page {chosen_page} and random resources requested successfully.")
+    print(f"Page {chosen_page} and selected resources requested successfully.")
 
 while True:
     make_request()
