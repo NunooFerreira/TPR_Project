@@ -2,10 +2,8 @@ import pandas as pd
 from datetime import datetime, timedelta
 
 # Define the log file and output CSV
-log_file = '../AccessLogs/Botlvl7.log'
-output_csv = '../OutputedCsv/BOTLVL7_Combined_5min_metrics.csv'
-
-#ULTIMAS DUAS LINHAS SAO O MAX E MIN RESPETIVAMENTE.
+log_file = '../AccessLogs/Nunoaccess.log'
+output_csv = '../OutputedCsv/NUNOVARIANCE_Combined_5min_metrics.csv'
 
 data = []
 
@@ -120,7 +118,15 @@ with open(log_file, 'r') as f:
     results_df = pd.DataFrame(results)
     results_df = results_df.drop(columns=['window_start', 'window_end'])
 
-    # # Add a row for the maximum and minimum across all columns
+    # Calculate variance and standard deviation for each numeric column
+    variance = results_df.var()
+    std_deviation = results_df.std()
+
+    # Add variance and std deviation to the results dataframe
+    results_df.loc['Variance'] = variance
+    results_df.loc['Std_Deviation'] = std_deviation
+
+    # # Add a row for the maximum and minimum across all columns (optional)
     # max_row = results_df.max().rename('Maximum')
     # min_row = results_df.min().rename('Minimum')
     # results_df = pd.concat([results_df, max_row.to_frame().T, min_row.to_frame().T])

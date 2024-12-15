@@ -76,3 +76,26 @@ Tirar a cotangem geral da media e da variancia.
 
 -- normalizar os valores.
 -- fAZER O CENTROID DE 70% DOS DADOS BONS, E DEPOIS DAR 30% DOS DADOS BOMS E 100% DOS MAUS JUNTOS E CALCULAR A DISTANCIA ATE O CENTROID E DE ACORDO COM UM threshold, DAR LABELS
+
+
+
+
+
+
+
+Again: 
+-- Normlizar os dados (Usamos By min/max, scaling each feature to a given range,)
+-- Treinar com 70% dos dados bons e fazer um centroide com os dados bons.
+-- Achar um threshold bom.
+-- Feedar com 30% dos dados bons e maus.
+-- Testar e ver se deu como queria.
+
+
+Para Apresentar:
+Modificar o LOGS_TOTAL.csv para ter apenas os csv burros, e guardar as prints de como era usando os Distances to Central Point(s).
+Fazer um grafico com os bots lvl 1 2 3 e 4.
+Fazer outro com lvl 5, outro lvl 6 outro lvl 7 e Finalmente lvl 8 e justficar o uso do ML.
+
+
+#MUDAR O BOT LVL 8 PARA PEDIR LIGEIRAMETNE MENOS CSS e JAvascripts 
+
