@@ -98,4 +98,6 @@ Fazer outro com lvl 5, outro lvl 6 outro lvl 7 e Finalmente lvl 8 e justficar o 
 
 
 #MUDAR O BOT LVL 8 PARA PEDIR LIGEIRAMETNE MENOS CSS e JAvascripts 
+nos slides meterr o Use an average reading speed of ~230 words per minute (common benchmark).
+
 
