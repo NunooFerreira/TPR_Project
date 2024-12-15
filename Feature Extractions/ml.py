@@ -4,7 +4,7 @@ import matplotlib.pyplot as plt
 from sklearn.metrics import confusion_matrix, classification_report
 
 
-csv_file = "LOGS_TOTAL.csv"  
+csv_file = "Final_with_lvl7.csv"  
 df = pd.read_csv(csv_file)
 
 # Exclude the Label column from normalization
@@ -17,7 +17,7 @@ for column in columns_to_normalize:
     df[column] = (df[column] - min_val) / (max_val - min_val)
 
 # Save the normalized dataset
-output_csv = "../OutputedCsv/normalized_file.csv"  
+output_csv = "../OutputedCsv/Final_with_lvl7_normalized_file.csv"  
 df.to_csv(output_csv, index=False)
 print(f"Normalized dataset saved to {output_csv}")
 

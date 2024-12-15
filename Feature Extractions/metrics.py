@@ -2,8 +2,8 @@ import pandas as pd
 from datetime import datetime, timedelta
 
 # Define the log file and output CSV
-log_file = '../AccessLogs/Botlvl7.log'
-output_csv = '../OutputedCsv/BOTLVL7_Combined_5min_metrics.csv'
+log_file = '../AccessLogs/Patriciaaccess.log'
+output_csv = '../OutputedCsv/Patricia_Combined_5min_metrics.csv'
 
 #ULTIMAS DUAS LINHAS SAO O MAX E MIN RESPETIVAMENTE.
 
