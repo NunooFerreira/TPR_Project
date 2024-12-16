@@ -4,6 +4,7 @@ import os
 def merge_csv_files():
     """
     Merges a specified number of CSV files provided by the user into a single CSV file.
+    Removes 'window_start' and 'window_end' columns and adds a 'Label' column with value 1.
     """
     try:
         # Ask for the number of files to merge
@@ -21,9 +22,22 @@ def merge_csv_files():
                 return
             csv_files.append(file_name)
         
-        # Read and concatenate all specified CSV files
-        merged_data = pd.concat([pd.read_csv(file) for file in csv_files])
-        
+        # Read, process, and concatenate all specified CSV files
+        processed_dataframes = []
+        for file in csv_files:
+            df = pd.read_csv(file)
+
+            # Remove 'window_start' and 'window_end' columns if they exist
+            df = df.drop(columns=['window_start', 'window_end'], errors='ignore')
+
+            # Add the 'Label' column with value 1
+            df['Label'] = 1
+
+            processed_dataframes.append(df)
+
+        # Merge all dataframes into one
+        merged_data = pd.concat(processed_dataframes, ignore_index=True)
+
         # Ask for the output file name
         output_file = input("Enter the output file name (with .csv extension): ").strip()
         if not output_file.endswith('.csv'):
@@ -36,5 +50,4 @@ def merge_csv_files():
     except Exception as e:
         print(f"An error occurred: {e}")
 
-# Run the script
 merge_csv_files()

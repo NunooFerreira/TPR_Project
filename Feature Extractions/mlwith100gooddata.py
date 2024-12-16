@@ -3,9 +3,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 from sklearn.metrics import confusion_matrix, classification_report
 
-#Good trafic, label = 0
-#Bad trafic, label = 1
-
+# Load the dataset
 csv_file = "LOGS_TOTAL.csv"  
 df = pd.read_csv(csv_file)
 
@@ -26,23 +24,20 @@ print(f"Normalized dataset saved to {output_csv}")
 # Select columns 1 to 6, 13, and 15 (Python uses zero-based indexing, so adjust accordingly)
 columns_to_select = list(range(0, 6)) + [12, 14, 15]
 
-# Filter rows where the 'Label' column is 0 (assuming 'Label' is in the original df)
-filtered_df = df[df['Label'] == 0]
-df_good = filtered_df.iloc[:, columns_to_select]
+# Filter rows where the 'Label' column is 0 (good data)
+df_good = df[df['Label'] == 0].iloc[:, columns_to_select]
 
+# Filter rows where the 'Label' column is 1 (bad data)
+df_bad = df[df['Label'] == 1].iloc[:, columns_to_select]
 
-# Filter rows where the 'Label' column is 0 (assuming 'Label' is in the original df)
-filtered_df = df[df['Label'] == 1]
-df_bad = filtered_df.iloc[:, columns_to_select] 
+# Train with 100% of good data
+df_train = df_good
 
-
-df_train = df_good[:76] # Train dataset os primeiros 70% dos bons
-df_test = pd.concat([df_good[76:] , df_bad], ignore_index=True) #Test dataset com o resto dos 30% dos bons + 100% dos maus
-df_test_good = df_good[76:]
-df_test_bad = df_bad
+# Test with only bad data
+df_test = df_bad
 
 # Compute the centroid of df_train excluding column 15 (label)
-columns_for_centroid = ["numRequests", "tamanhoResposta"]       #Mudar aqui para escolher as metricas
+columns_for_centroid = ["numRequests", "tamanhoResposta"]  # Change here to choose metrics
 centroid = df_train[columns_for_centroid].mean()
 print("Centroid of the training dataset (excluding Label column):")
 print(centroid)
@@ -55,12 +50,12 @@ distances = df_train[columns_for_centroid].apply(lambda row: euclidean_distance(
 max_distance = distances.max()
 print("Largest Euclidean distance to the centroid:", max_distance)
 
-#threshold = 0
-#radius = max_distance + threshold
-q1, q3 = np.percentile(distances, [25,75])
+# Define the radius based on IQR
+distances = df_train[columns_for_centroid].apply(lambda row: euclidean_distance(row, centroid), axis=1)
+q1, q3 = np.percentile(distances, [25, 75])
 iqr = q3 - q1
 k = 1.2
-radius = np.median(distances) + k*iqr
+radius = np.median(distances) + k * iqr
 
 # Extract centroid coordinates
 x_centroid, y_centroid = centroid["numRequests"], centroid["tamanhoResposta"]
@@ -74,7 +69,6 @@ y_circle = y_centroid + radius * np.sin(theta)
 x_circle = np.where(x_circle < 0, 0, x_circle)
 y_circle = np.where(y_circle < 0, 0, y_circle)
 
-
 # Plot the circumference and training data
 fig1 = plt.figure(figsize=(8, 8))
 ax = plt.axes()
@@ -83,18 +77,16 @@ ax.scatter(df_train["numRequests"], df_train["tamanhoResposta"], label="Training
 ax.scatter(x_centroid, y_centroid, color="black", label="Centroid", zorder=5)
 ax.set_xlabel("numRequests")
 ax.set_ylabel("tamanhoResposta")
-ax.set_title("Circumference around Centroid With Traning Data")
+ax.set_title("Circumference around Centroid With Training Data")
 ax.legend()
 ax.grid(True)
 ax.axis("equal")  # Equal scaling for x and y axes
 
-
-# Plot the circumference and training data
+# Plot the circumference and testing data
 fig2 = plt.figure(figsize=(8, 8))
 ax = plt.axes()
 ax.plot(x_circle, y_circle, label="Circumference (radius={:.2f})".format(radius), color="blue")
-ax.scatter(df_test_good["numRequests"], df_test_good["tamanhoResposta"], label="Testing Data", color="green")
-ax.scatter(df_test_bad["numRequests"], df_test_bad["tamanhoResposta"], label="Testing Data", color="red")
+ax.scatter(df_test["numRequests"], df_test["tamanhoResposta"], label="Testing Data", color="red")
 ax.scatter(x_centroid, y_centroid, color="black", label="Centroid", zorder=5)
 ax.set_xlabel("numRequests")
 ax.set_ylabel("tamanhoResposta")
@@ -104,14 +96,7 @@ ax.grid(True)
 ax.axis("equal")  # Equal scaling for x and y axes
 plt.show()
 
-
 # Confusion Matrix:
-from sklearn.metrics import confusion_matrix, classification_report
-
-# Combine testing data
-df_test["numRequests"] = df_test["numRequests"].astype(float)
-df_test["tamanhoResposta"] = df_test["tamanhoResposta"].astype(float)
-
 # Compute the Euclidean distance for each test sample
 df_test["distance_to_centroid"] = df_test[columns_for_centroid].apply(
     lambda row: euclidean_distance(row, centroid), axis=1
