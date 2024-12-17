@@ -6,7 +6,7 @@ from sklearn.metrics import confusion_matrix, classification_report
 #Good trafic, label = 0
 #Bad trafic, label = 1
 
-csv_file = "LOGS_TOTAL.csv"  
+csv_file = "Full_Updated.csv"  
 df = pd.read_csv(csv_file)
 
 # Exclude the Label column from normalization
@@ -23,7 +23,7 @@ output_csv = "../OutputedCsv/normalized_file.csv"
 df.to_csv(output_csv, index=False)
 print(f"Normalized dataset saved to {output_csv}")
 
-# Select columns 1 to 6, 13, and 15 (Python uses zero-based indexing, so adjust accordingly)
+# Select columns 1 to 6, 13, and 15 
 columns_to_select = list(range(0, 6)) + [12, 14, 15]
 
 # Filter rows where the 'Label' column is 0 (assuming 'Label' is in the original df)
@@ -37,7 +37,10 @@ df_bad = filtered_df.iloc[:, columns_to_select]
 
 
 df_train = df_good[:76] # Train dataset os primeiros 70% dos bons
+# df_train = df_good[:108] # Train dataset os primeiros 100% dos bons
 df_test = pd.concat([df_good[76:] , df_bad], ignore_index=True) #Test dataset com o resto dos 30% dos bons + 100% dos maus
+# df_test = pd.concat([df_good[108:] , df_bad], ignore_index=True) #Test dataset 100% dos maus CONTIUNUAR AQUI A LOGICA
+
 df_test_good = df_good[76:]
 df_test_bad = df_bad
 
