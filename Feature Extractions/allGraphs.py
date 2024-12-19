@@ -2,9 +2,12 @@ import pandas as pd
 import matplotlib.pyplot as plt
 from itertools import combinations
 
-# Function to create scatter plots for all combinations of metrics
+
+file1 = '../OutputedCsv/Nuno_Combined_5min_metrics.csv' 
+file2 = '../OutputedCsv/BOTLVL7_Combined_5min_metrics.csv'  
+
 def scatter_plot_all_combinations(file1, file2, metrics):
-    # Load data from the CSV files
+
     data1 = pd.read_csv(file1)
     data2 = pd.read_csv(file2)
 
@@ -33,13 +36,8 @@ def scatter_plot_all_combinations(file1, file2, metrics):
         # Show the plot
         plt.show()
 
-# Specify the input CSV files
-file1 = '../OutputedCsv/Nuno_Combined_5min_metrics.csv'  # Replace with your first CSV file
-file2 = '../OutputedCsv/BOTLVL7_Combined_5min_metrics.csv'  # Replace with your second CSV file
-
 # List of metrics to plot
 metrics = ['numRequests', 'tamanhoResposta', 'totalImageSize', 'RequestsJS', 'RequestsHTML', 'RequestsCSS',
            'totalSilenceTime', 'silenceCount']
 
-# Call the scatter plot function for all combinations
 scatter_plot_all_combinations(file1, file2, metrics)

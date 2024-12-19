@@ -1,11 +1,10 @@
 import pandas as pd
 from datetime import datetime, timedelta
 
-# Define the log file and output CSV
-log_file = '../AccessLogs/Botlvl4.log'
-output_csv = '../OutputedCsv/BOTLVL4_Combined_5min_metrics.csv'
+log_file = '../AccessLogs/Nunoaccess.log'
+output_csv = '../OutputedCsv/Nuno_Combined_5min_metrics.csv'
 
-#ULTIMAS DUAS LINHAS SAO O MAX E MIN RESPETIVAMENTE.
+#ULTIMAS DUAS LINHAS SAO O MAX E MIN RESPETIVAMENTE. (Ja nao sao)
 
 data = []
 
@@ -120,11 +119,5 @@ with open(log_file, 'r') as f:
     results_df = pd.DataFrame(results)
     results_df = results_df.drop(columns=['window_start', 'window_end'])
 
-    # # Add a row for the maximum and minimum across all columns
-    # max_row = results_df.max().rename('Maximum')
-    # min_row = results_df.min().rename('Minimum')
-    # results_df = pd.concat([results_df, max_row.to_frame().T, min_row.to_frame().T])
-
-    # Save to CSV
     results_df.to_csv(output_csv, index=False)
     print(f"Combined 5-minute metrics with statistics saved to {output_csv}")

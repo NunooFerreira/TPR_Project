@@ -81,10 +81,10 @@ Tirar a cotangem geral da media e da variancia.
 
 Again:  (Feito)
 -- Normlizar os dados (Usamos By min/max, scaling each feature to a given range,)
--- Treinar com 70% dos dados bons e fazer um centroide com os dados bons.
+-- Treinar com 100% dos dados bons e fazer um centroide com os dados bons.
 -- Achar um threshold bom.
--- Feedar com 30% dos dados bons e maus.
--- Testar e ver se deu como queria.
+-- Testar com 100% dos dados maus.
+-- Ver os resultados.
 
 
 SLIDES:
@@ -93,6 +93,9 @@ SLIDES:
     Fazer um grafico com os bots lvl 1 2 3 e 4.
     Fazer outro com lvl 5, outro lvl 6 outro lvl 7 e Finalmente lvl 8 e justficar o uso do ML.
 
-    Nos slides meterr o Use an average reading speed of ~230 words per minute (common benchmark).
 
 
+    A Medida que aumentamos o numero do dataset nos ML, o modelo vai tendo menos accuracy.
+
+
+    

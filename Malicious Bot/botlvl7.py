@@ -59,7 +59,7 @@ def make_request():
 
     # Choose a smaller random subset of resources to make the requests more realistic
     if resources:
-        num_requests = max(1, random.randint(1, len(resources) // 2))  # Halve the number of requests
+        num_requests = max(1, random.randint(1, len(resources) // 2))  # half the number of requests
         selected_resources = random.sample(resources, num_requests)
 
         # Make a request for each selected resource
