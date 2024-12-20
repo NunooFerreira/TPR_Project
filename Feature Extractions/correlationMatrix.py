@@ -3,6 +3,8 @@ import seaborn as sns
 import matplotlib.pyplot as plt
 import numpy as np
 
+#Tracar uma matrix correlacao para saber quais as metricas mais relacionadas umas com as outras
+
 # Define the input CSV file
 input_csv = '../OutputedCsv/Este_NunoPatriciaFinal_Combined_5min_metrics.csv'
 

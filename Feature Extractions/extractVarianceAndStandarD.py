@@ -1,6 +1,8 @@
 import pandas as pd
 from datetime import datetime, timedelta
 
+#APENAS FOI USADO PARA SABER A VARIANCIA E A STANDARD DIVIASION PARA O BOT LVL 8 COMPORTAR SE COM ISSO
+
 # Define the log file and output CSV
 log_file = '../AccessLogs/Nunoaccess.log'
 output_csv = '../OutputedCsv/NUNOVARIANCE_Combined_5min_metrics.csv'

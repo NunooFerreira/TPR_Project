@@ -4,6 +4,7 @@ from datetime import datetime, timedelta
 log_file = '../AccessLogs/Nunoaccess.log'
 output_csv = '../OutputedCsv/Nuno_Combined_5min_metrics.csv'
 
+#Ficheiro para devolver todas as features apartir dos Logs
 #ULTIMAS DUAS LINHAS SAO O MAX E MIN RESPETIVAMENTE. (Ja nao sao)
 
 data = []
