@@ -1,4 +1,4 @@
-# Machine Learning Directory for DDoS Layer 7 Project
+# Machine Learning
 
 ## Overview
 
@@ -90,7 +90,22 @@ This directory contains the machine learning scripts and resources used to class
 - Ensure `All_with_7_8.csv` is properly formatted and includes all necessary features and labels.
 - Customize hyperparameters (e.g., `n_estimators` for Random Forest, `kernel` for SVM) as needed for better performance.
 
-## License
+## Results
 
-This project is for educational purposes and should not be used maliciously.
+- SVM Using Linear Kernel:
 
+![svmlinear](https://github.com/user-attachments/assets/ffefebff-392b-4b21-a7c8-5ae8f3bca0b6)
+
+![svmconfusionon](https://github.com/user-attachments/assets/dc217969-65bd-4647-8dd9-74bd4a9bc546)
+
+![svmresults](https://github.com/user-attachments/assets/10dc22e8-46a6-42bb-8273-4553f0c90cfd)
+
+
+
+- Random Forest
+
+![randomforest](https://github.com/user-attachments/assets/57c63da6-7538-4f24-a68f-ca57fff39d49)
+
+![confusinmatreixrandom](https://github.com/user-attachments/assets/9524cb91-86d0-48b3-8b35-e6113c134aab)
+
+![randomforestresults](https://github.com/user-attachments/assets/deb0f5da-45f3-4e02-aeea-156276fe2417)
