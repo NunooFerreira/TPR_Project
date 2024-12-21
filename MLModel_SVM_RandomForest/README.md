@@ -92,7 +92,7 @@ This directory contains the machine learning scripts and resources used to class
 
 ## Results
 
-- SVM Using Linear Kernel:
+- Binary SVM Using Linear Kernel:
 
 ![svmlinear](https://github.com/user-attachments/assets/ffefebff-392b-4b21-a7c8-5ae8f3bca0b6)
 
